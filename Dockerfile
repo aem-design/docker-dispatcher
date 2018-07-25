@@ -77,6 +77,6 @@ VOLUME ["/data/httpd/cache","/data/httpd/logs","/data/httpd/redirectmap"]
 
 EXPOSE 8080 8443
 
-RUN chmode +x /dispatcher/start.sh
+RUN chmod +x /dispatcher/start.sh
 
 CMD ["/dispatcher/start.sh"]
