@@ -1,0 +1,32 @@
+# The rules section defines what responses should be cached based on
+# the requested URL. Please note that only the following requests can
+# lead to cacheable responses:
+#
+# - HTTP method is GET
+# - URL has an extension
+# - Request has no query string
+# - Request has no "Authorization" header (unless allowAuthorized is 1)
+
+# the globbing pattern to be compared against the url
+# example: *             -> everything
+#        : /foo/bar.*    -> only the /foo/bar documents
+#        : /foo/bar/*    -> all pages below /foo/bar
+#        : /foo/bar[./]* -> all pages below and /foo/bar itself
+#        : *.html        -> all .html files
+
+/0000 { /glob "*" /type "allow" }
+## Allow caching of requests to /libs
+# /0001 { /glob "/libs/*" /type "allow" }
+## This contains user information
+#/0002 { /glob "/libs/cq/security/userinfo.*" /type "deny" }
+## This page contains a "Welcome, User XXX" message
+#/0003 { /glob "/libs/cq/core/content/welcome.*" /type "deny" }
+## If your application is designed to allow caching of requests to /apps
+## enable this rule after careful validation that no user specific content
+## is cached.
+## /0004 { /glob "/apps/*" /type "allow" }
+
+#dont cache
+/0101 { /glob "/libs/*" /type "deny" }
+/0102 { /glob "/apps/*" /type "deny" }
+/0103 { /glob "/etc/*" /type "deny" }

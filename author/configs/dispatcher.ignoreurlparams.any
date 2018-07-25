@@ -1,0 +1,8 @@
+# The ignoreUrlParams section contains query string parameter names that
+# should be ignored when determining whether some request's output can be
+# cached or delivered from cache.
+
+#/0001 { /glob "*" /type "deny" }
+#/0002 { /glob "debug" /type "allow" }
+#/0003 { /glob "q" /type "allow" }
+#/0004 { /glob "search" /type "allow" }

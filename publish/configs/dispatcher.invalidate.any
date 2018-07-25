@@ -1,0 +1,27 @@
+# The invalidate section defines the pages that are "invalidated" after
+# any activation. Please note that the activated page itself and all
+# related documents are flushed on an modification. For example: if the
+# page /foo/bar is activated, all /foo/bar.* files are removed from the
+# cache.
+
+/0000 { /glob "*" /type "deny" }
+# Consider all HTML files stale after an activation.
+/0001 { /glob "*.html" /type "allow" }
+/0002 { /glob "*.json" /type "allow" }
+
+
+/0102 { /glob "/etc/segmentation.segment.js" /type "allow" }
+/0103 { /glob "*/analytics.sitecatalyst.js" /type "allow" }
+/0104 { /glob "*.css" /type "allow" }
+/0105 { /glob "*.js" /type "allow" }
+/0106 { /glob "*.jpg" /type "allow" }
+/0107 { /glob "*.jpeg" /type "allow" }
+/0108 { /glob "*.gif" /type "allow" }
+/0109 { /glob "*.png" /type "allow" }
+/0110 { /glob "*.ico" /type "allow" }
+/0111 { /glob "*.swf" /type "allow" }
+/0112 { /glob "*.otf" /type "allow" }
+/0113 { /glob "*.eot" /type "allow" }
+/0114 { /glob "*.svg" /type "allow" }
+/0115 { /glob "*.ttf" /type "allow" }
+/0116 { /glob "*.woff" /type "allow" }

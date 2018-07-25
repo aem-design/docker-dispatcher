@@ -1,0 +1,22 @@
+/rend01
+{
+    # Hostname or IP of the render
+    /hostname "${RENDERER_HOST}"
+
+    # Port of the render
+    /port "${RENDERER_PORT}"
+
+    # Connect timeout in milliseconds, 0 to wait indefinitely
+    /timeout "${RENDERER_TIMEOUT}"
+
+    # always resolve hostname
+    /always-resolve "${RENDERER_RESOLVE}"
+
+    # specifies the time in milliseconds that a response is allowed to take. The default is "600000", causing Dispatcher to wait for 10 Minutes. A setting of "0" eliminates the timeout completely.
+    # If the timeout is reached while parsing response headers, an HTTP Status of 504 (Bad Gateway) is returned. If the timeout is reached while the response body is read, the Dispatcher will return the incomplete response to the client but delete any cache file that might have been written.
+    /receiveTimeout "600000"
+
+    #Specifies whether Dispatcher uses the getaddrinfo function (for IPv6) or the gethostbyname function (for IPv4) for obtaining the IP address of the render.
+    /ipv4 "0"
+
+}

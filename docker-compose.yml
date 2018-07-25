@@ -1,0 +1,12 @@
+aem-dispatcher:
+  dockerfile: Dockerfile
+  build: .
+  labels:
+    httpd.version: "6.1"
+    os.version: "centos 7"
+    container.description: "aem dispatcher"
+  container_name: "author-dispatcher"
+  arg:
+    - APACHE_RUN_USER=apache
+    - APACHE_RUN_GROUP=apache
+    - APACHE_RUN_USERID=48

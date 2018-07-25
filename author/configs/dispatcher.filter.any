@@ -1,0 +1,44 @@
+# The filter section defines the requests that should be handled by the dispatcher.
+#
+# Entries can be either specified using globs, or elements of the request line:
+#
+# (1) globs will be compared against the entire request line, e.g.:
+#
+#     /0001 { /type "deny" /glob "* /index.html *" }
+#
+#   matches request "GET /index.html HTTP/1.1" but not "GET /index.html?a=b HTTP/1.1".
+#
+# (2) method/url/query/protocol will be compared againts the respective elements of
+#   the request line, e.g.:
+#
+#     /0001 { /type "deny" /method "GET" /url "/index.html" }
+#
+#   matches both "GET /index.html" and "GET /index.html?a=b HTTP/1.1".
+#
+# Note: specifying elements of the request line is the preferred method.
+
+# allow everything
+/0001 { /type "allow"  /glob "*" }
+
+# block admin tools
+/0010 { /type "deny" /glob "* /admin/*" }
+/0011 { /type "deny" /glob "* /admin *" }
+/0012 { /type "deny" /glob "* /system/*" }
+/0013 { /type "deny" /glob "* /_jcr_system/*" }
+/0014 { /type "deny" /glob "* /jcr:system/*" }
+
+# allow  access to logout
+
+# block crx tools
+# /0015 { /type "deny" /glob "* /crx/*" }
+# /0016 { /type "deny" /glob "* /crx *" }
+# /0017 { /type "deny" /glob "* /bin/crxde*" }
+
+# allow some requests
+/0052 { /type "allow" /glob "GET /system/sling/logout*" } # allow logout
+
+# allow granite csrf
+/0300 { /type "allow" /glob "GET /libs/granite/csrf/token.json" }
+
+# aem forms
+/1025 { /type "allow" /glob "* /bin/xfaforms/submitaction*" } # to enable AEM forms submission

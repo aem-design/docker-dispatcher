@@ -1,0 +1,201 @@
+# The filter section defines the requests that should be handled by the dispatcher.
+#
+# Entries can be either specified using globs, or elements of the request line:
+#
+# (1) globs will be compared against the entire request line, e.g.:
+#
+#     /0001 { /type "deny" /glob "* /index.html *" }
+#
+#   matches request "GET /index.html HTTP/1.1" but not "GET /index.html?a=b HTTP/1.1".
+#
+# (2) method/url/query/protocol will be compared againts the respective elements of
+#   the request line, e.g.:
+#
+#     /0001 { /type "deny" /method "GET" /url "/index.html" }
+#
+#   matches both "GET /index.html" and "GET /index.html?a=b HTTP/1.1".
+#
+# Note: specifying elements of the request line is the preferred method.
+
+
+# Deny everything first and then allow specific entries
+/0001 { /type "deny" /glob "*" }
+
+# Open consoles
+# /0011 { /type "allow" /url "/admin/*"  }  # allow servlet engine admin
+# /0012 { /type "allow" /url "/crx/*"    }  # allow content repository
+# /0013 { /type "allow" /url "/system/*" }  # allow OSGi console
+
+# Allow non-public content directories
+# /0021 { /type "allow" /url "/apps/*"   }  # allow apps access
+# /0022 { /type "allow" /url "/bin/*"    }
+/0023 { /type "allow" /url "/content*" }  # disable this rule to allow mapped content only
+
+# /0024 { /type "allow" /url "/libs/*"   }
+# /0025 { /type "deny"  /url "/libs/shindig/proxy*" } # if you enable /libs close access to proxy
+
+# /0026 { /type "allow" /url "/home/*"   }
+# /0027 { /type "allow" /url "/tmp/*"    }
+# /0028 { /type "allow" /url "/var/*"    }
+/0029 { /type "allow" /url "/dispatcher/invalidate.cache" }
+
+#deny libs and etc
+/0030 { /type "deny" /url "/libs/*"   }
+/0031 { /type "deny" /url "/etc/*"   }
+
+
+# Enable specific mime types in non-public content directories
+/0041
+{
+    /type "allow"
+    /extension '(css|gif|ico|js|png|swf|jpe?g|otf|eot|svg|ttf*|woff*)'
+}
+
+# /0041 { /type "allow" /url "*.css"   }  # enable css
+# /0042 { /type "allow" /url "*.gif"   }  # enable gifs
+# /0043 { /type "allow" /url "*.ico"   }  # enable icos
+# /0044 { /type "allow" /url "*.js"    }  # enable javascript
+# /0045 { /type "allow" /url "*.png"   }  # enable png
+# /0046 { /type "allow" /url "*.swf"   }  # enable flash
+# /0047 { /type "allow" /url "*.jpg"   }  # enable jpg
+# /0048 { /type "allow" /url "*.jpeg"  }  # enable jpeg
+# /0049 { /type "allow" /url "*.otf"  }   # enable otf
+# /0050 { /type "allow" /url "*.eot"  }   # enable eot
+# /0051 { /type "allow" /url "*.svg"  }   # enable svg
+# /0052 { /type "allow" /url "*.ttf*"  }   # enable ttf
+# /0053 { /type "allow" /url "*.woff*"  }  # enable woff
+
+# Enable features
+# allow POSTs to form selectors under content
+/0061 { /type "allow" /method "POST" /url "/content/[.]*.form.html" }
+# enable personalization
+/0062 { /type "allow" /url "* /libs/cq/personalization/*" }
+# allow POSTs to update the shopping cart
+/0063 { /type "allow" /method "POST /url /content/[.]*.commerce.cart.json" }
+
+# Deny content grabbing
+/0070 { /type "deny"  /url "*.json" }
+/0071 { /type "deny"  /url "*.xml" }
+
+
+# Deny content grabbing, on all accessible pages, using regular expressions
+/0081
+{
+    /type "deny"
+    /selectors '((sys|doc)view|query|[0-9-]+)'
+    /extension '(json|xml)'
+}
+# Deny content grabbing for /content
+/0082
+{
+    /type "deny"
+    /path "/content"
+    /selectors '(feed|rss|pages|languages|blueprint|infinity|tidy)'
+    /extension '(json|xml|html)'
+}
+
+# Deny content grabbing
+#/0080 { /type "deny"  /url "*.overlay.*.json" }
+#/0081 { /type "deny"  /url "*.infinity.json" }
+#/0082 { /type "deny"  /url "*.tidy.json"     }
+#/0083 { /type "deny"  /url "*.sysview.xml"   }
+#/0084 { /type "deny"  /url "*.docview.json"  }
+#/0085 { /type "deny"  /url "*.docview.xml"  }
+#/0086 { /type "deny"  /url "*.*[0-9].json" }
+
+# allow one-level json requests
+# /0087 { /type "allow" /method "GET" /extension 'json' "*.1.json" }
+
+/0088 { /type "deny"  /method "GET" /url "*.feed.xml*"      }
+/0089 { /type "deny"  /method "GET" /url ".feed.html*"      }
+
+# Deny query
+/0090 { /type "deny"  /url "*.query.json" }
+
+# Deny more content grabs
+/0091 { /type "deny"  /method "GET" /url "/content.pages.json*"      }
+/0092 { /type "deny"  /method "GET" /url "/content.languages.json*"      }
+/0093 { /type "deny"  /method "GET" /url "/content.blueprint.json*"      }
+/0094 { /type "deny"  /method "GET" /url "/content.feed.html*"      }
+
+# Allow access to search
+/0150 { /type "allow"  /url "* /content/*/*/search*"      }
+/0151 { /type "allow"  /url "* /content/*/*/search/*"      }
+/0152 { /type "allow" /method "POST" /url "* /content/*/*/search*" /query "search=*" }
+
+# Allow sitemap
+/0188 { /type "allow"  /method "GET" /url "*/sitemap.xml"      }
+
+# Allow access to tags
+/0200 { /type "allow" /method "GET" /url "/content/cq:tags/*.valuelist.current.json*"   }
+/0201 { /type "allow" /method "GET" /url "/content/cq:tags/*.valuelist.json*"   }
+/0203 { /type "allow" /method "GET" /url "/content/cq:tags/*.5.json*"   }
+
+# allow granite csrf
+/0300 { /type "allow" /glob "GET /libs/granite/csrf/token.json" }
+
+#deny libs and etc
+/0511 { /type "deny" /url "/libs/opensocial/proxy*"   }
+/0512 { /type "deny" /url "/etc/replication.xml*"   }
+/0513 { /type "deny" /url "/etc/replication.infinity.json*"   }
+
+#allow libs and etc
+#/0531 { /type "allow" /method "GET" /url "/apps/settings/wcm/design/*" }
+/0532 { /type "allow" /method "GET" /url "/etc/segmentation.segment.js" }
+/0533 { /type "allow" /method "GET" /url "/libs/cq/personalization/components/clickstreamcloud/content/config.json" }
+/0534 { /type "allow" /method "GET" /url "/libs/wcm/stats/tracker.js" }
+/0535 { /type "allow" /method "GET" /url "/libs/cq/personalization/*.js*" } #JS, CSS and JSON
+/0536 { /type "allow" /method "GET" /url "/libs/cq/personalization/*.css*" } #JS, CSS and JSON
+/0537 { /type "allow" /method "GET" /url "/libs/cq/personalization/*.json*" } #JS, CSS and JSON
+/0538 { /type "allow" /method "GET" /url "/libs/cq/security/userinfo.json" } #CQ user information
+/0539 { /type "allow" /method "GET" /url "/libs/granite/security/currentuser.json" } #data must not be cached
+/0540 { /type "allow" /method "GET" /url "/libs/cq/i18n/*" } #Internalization
+/0676 { /type "allow" /url "GET /libs/granite/security/userinfo.json"} # Allow SCF User Model to bootstrap as it depends on the granite user
+/0677 { /type "allow" /url "GET /libs/granite/security/currentuser.json" } # Allow SCF User Model to bootstrap as it depends on the granite user
+
+# Allow Logout
+/0800 { /type "allow" /glob "* /system/sling/logout*" }
+
+# Allow i18n to load correctly
+/0810 { /type "allow" /glob "GET /libs/cq/i18n/dict.en.json *" }
+
+# Allow loading of templates
+/0820 { /type "allow" /glob "GET /services/social/templates*" }
+
+# vanity url
+/0830 { /type "allow" /url "/libs/granite/dispatcher/content/vanityUrls.html" }
+
+# begin social communities package additions:
+#/1650 { /type "allow" /glob "GET /apps/settings/wcm/design/*" } # the design and template assets
+/1651 { /type "allow" /glob "GET /etc/clientlibs/*" } # collected JS/CSS from the components and design
+/1652 { /type "allow" /glob "GET /bin/statistics/tracker/*" } # foundation search component - write stats
+#/1653 { /type "allow" /glob "GET /libs/cq/i18n/*" }
+/1654 { /type "allow" /glob "* /home/users/*/*/profile.form.html*" } # allow users to edit profile page
+#/1655 { /type "allow" /glob "GET /etc/segmentation.segment.js *" } # teaser component
+/1656 { /type "allow" /glob "GET /system/sling.js *" } # foundation slide show component
+# this works for communities profile data: CQ, Facebook, Twitter
+/1657 { /type "allow" /glob "GET /home/users/*/profile/*" } # communities: all profile data
+/1659 { /type "allow" /glob "GET /etc/clientcontext/*" } # communities: required for social "Sign In" link.
+/1664 { /type "allow" /glob "GET /etc/cloudservices/*" } # communities: to enable Facebook and twitter connections
+/1671 { /type "allow" /glob "POST /content/sites/*/resources/en/*" }
+/1672 { /type "allow" /glob "GET /content/communities/enablement/reports/*" }
+/1673 { /type "allow" /glob "GET /content/sites/*" }
+/1674 { /type "allow" /glob "GET /content/communities/scorm/*" }
+/1682 { /type "allow" /glob "GET *.social.*.json*" } # Allow social json get pattern.
+/1685 { /type "allow" /glob "GET /services/social/getLoggedInUser?moderatorCheck=*" } # Allow SCF User model to check moderator rules
+/1686 { /type "allow" /glob "GET /etc/clientlibs/social/thirdparty/ckeditor/*.js?t=*" } # Allow CKEditor to load which uses a query pattern not sufficed by regular glob above.
+/1687 { /type "allow" /glob "GET /etc/clientlibs/social/thirdparty/ckeditor/*.css?t=*" } # Allow CKEditor to load which uses a query pattern not sufficed by regular glob above.
+# end communities package additions
+
+# aem forms
+/6025 { /type "allow" /glob "* /bin/xfaforms/submitaction*" } # to enable AEM forms submission
+
+# workflows
+
+# Allow Access to the Workflow Console
+# /6200 { /type "allow"  /url "/libs/cq/workflow/content/console*" }
+# If your publish instance uses a web application context (for example publish) this can also be added to your filter definition.
+# /6201 { /type "deny"  /url "/publish/libs/cq/workflow/content/console/archive*"  }
+# If you still need to access single pages within the restricted area, you can allow access to them. For example, to allow access to the Archive tab within the Workflow console add the following section:
+# /6202  { /type "allow"  /url "/libs/cq/workflow/content/console/archive*"   }
+

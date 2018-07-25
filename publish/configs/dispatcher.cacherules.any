@@ -1,0 +1,44 @@
+# The rules section defines what responses should be cached based on
+# the requested URL. Please note that only the following requests can
+# lead to cacheable responses:
+#
+# - HTTP method is GET
+# - URL has an extension
+# - Request has no query string
+# - Request has no "Authorization" header (unless allowAuthorized is 1)
+
+# the globbing pattern to be compared against the url
+# example: *             -> everything
+#        : /foo/bar.*    -> only the /foo/bar documents
+#        : /foo/bar/*    -> all pages below /foo/bar
+#        : /foo/bar[./]* -> all pages below and /foo/bar itself
+#        : *.html        -> all .html files
+
+/0000 { /glob "*" /type "allow" }
+/0001 { /glob "/libs/*" /type "allow" }
+/0002 { /glob "/libs/*.html" /type "deny" }
+/0003 { /glob "/apps/*" /type "allow" }
+/0004 { /glob "/apps/*.html" /type "deny" }
+
+# This page contains a "Welcome, User XXX" message
+#/0005 { /glob "/libs/cq/core/content/welcome.*" /type "deny" }
+
+/0200 { /glob " /content/cq:tags/*" /type "allow" }
+/0536 { /glob "/libs/cq/security/userinfo.json" /type "deny" }
+/0537 { /glob "/libs/granite/security/currentuser.json" /type "deny" }
+# Never cache the user-specific .json requests
+/0600 { /type "deny" /glob "/libs/granite/csrf/token.json*" }
+/0601 { /type "deny" /glob "/libs/granite/security/currentuser.json*" }
+/0602 { /type "deny" /glob "/libs/granite/security/userinfo.json*" }
+
+# prevent caching of vanity service
+/0800 { /type "deny" /glob "/libs/granite/dispatcher/content/vanityUrls.html" }
+
+# Never cache the client-side .social.json calls
+/1001 { /type "deny" /glob "*.social.json*" }
+
+# Never cache the private community groups pages in case - add your own deny rules in there
+/1005 { /type "deny" /glob "/content/*/groups/*" }
+
+# Never cache the assignments page in case the Enablement feature is in use - add your own deny rules in there
+/1006 { /type "deny" /glob "/content/*/assignments/*" }

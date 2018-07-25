@@ -1,0 +1,4 @@
+ # Rewrite rules
+     RewriteMap map.legacy dbm:/data/httpd/redirectmap/redirectmap.map
+     RewriteCond ${map.legacy:$1} !=""
+     RewriteRule ^(.*)$ 		${map.legacy:$1}|/} [L,R=301]

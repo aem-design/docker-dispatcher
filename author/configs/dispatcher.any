@@ -1,0 +1,181 @@
+# name of the dispatcher
+/name "aemdesign-author"
+
+# Each farm configures a set of load balanced renders (i.e. remote servers)
+/farms
+  {
+  # First farm entry
+  /author
+    {
+    # Request headers that should be forwarded to the remote server.
+    /clientheaders
+      {
+        $include "dispatcher.clientheaders.any"
+      }
+      
+    # Hostname globbing for farm selection (virtual domain addressing)
+    /virtualhosts
+      {
+       $include "dispatcher.virtualhosts.any"
+      }
+
+    # Settings for user authentification
+    /sessionmanagement
+     {
+        $include "dispatcher.sessionmanagement.any"
+     }
+
+    # The load will be balanced among these render instances
+    /renders
+      {
+        $include "dispatcher.renders.any"
+      }
+
+    # List of filters
+    /filter
+      {
+       $include "dispatcher.filter.any"
+      }
+
+    # List of vanity URLs
+    /vanity-urls
+      {
+        $include "dispatcher.vanityurls.any"
+      }
+
+    # The cache section regulates what responses will be cached and where.
+    /cache
+      {
+      # The docroot must be equal to the document root of the webserver. The
+      # dispatcher will store files relative to this directory and subsequent
+      # requests may be "declined" by the dispatcher, allowing the webserver
+      # to deliver them just like static files.
+      /docroot "/data/httpd/cache"
+
+      # The /statfile property identifies the file to use as the statfile. Dispatcher uses this file to register the time of the most recent content update. The statfile can be any file on the web server.
+      #The statfile has no content. When content is updated, Dispatcher updates the timestamp. The default statfile is named .stat and is stored in the docroot. Dispatcher blocks access to the statfile.
+      # /statfile "/data/httpd/cache/.stat"
+
+      # Sets the level upto which files named ".stat" will be created in the
+      # document root of the webserver. When an activation request for some
+      # page is received, only files within the same subtree are affected
+      # by the invalidation.
+      # Dispatcher creates .stat files in each folder from the docroot folder down to the level that you specify. The docroot folder is level 0.
+      # When a file is updated, Dispatcher locates the folder on the file path that is at the statfileslevel, and invalidates all files below that folder.
+      /statfileslevel "${DISPATCHER_STATLEVEL}"
+
+      # Flag indicating whether to cache responses to requests that contain
+      # authorization information.
+      /allowAuthorized "${DISPATCHER_CACHEAUTHORIZED}"
+
+      # Flag indicating whether the dispatcher should serve stale content if
+      # no remote server is available.
+      /serveStaleOnError "${DISPATCHER_SERVESTALEONERROR}"
+
+      # The /headers property allows you to define the HTTP header types that re going to be cached by the dispatcher.
+      /headers {
+        $include "dispatcher.cacheheaders.any"
+      }
+
+      # List of cachable documents
+      /rules
+        {
+         $include "dispatcher.cacherules.any"
+        }
+
+      # List of auto-invalidated documents
+      /invalidate
+        {
+         $include "dispatcher.invalidate.any"
+        }
+
+      # The /invalidateHandler property allows you to define a script which is called for each invalidation request received by Dispatcher.
+      # /invalidateHandler "/opt/dispatcher/scripts/invalidate.sh"
+
+      # The allowedClients section restricts the client IP addresses that are
+      # allowed to issue activation requests.
+      /allowedClients
+        {
+         $include "dispatcher.allowedclients.any"
+        }
+
+      /ignoreUrlParams
+        {
+         $include "dispatcher.ignoreurlparams.any"
+        }
+
+      # A grace period defines the number of seconds a stale, auto-invalidated
+      # resource may still be served from the cache after the last activation
+      # occurring. Auto-invalidated resources are invalidated by any activation,
+      # when their path matches the /invalidate section above. This setting
+      # can be used in a setup, where a batch of activations would otherwise
+      # repeatedly invalidate the entire cache.
+      #
+      /gracePeriod 2
+
+      # Enable TTL evaluates the response headers from the backend, and if they
+      # contain a Cache-Control max-age or Expires date, an auxiliary, empty file
+      # next to the cache file is created, with modification time equal to the
+      # expiry date. When the cache file is requested past the modification time
+      # it is automatically re-requested from the backend.
+      #
+      /enableTTL 1
+
+      }
+      
+    # The statistics sections dictates how the load should be balanced among the
+    # renders according to the media-type. 
+    /statistics
+      {
+      /categories
+        {
+            $include "dispatcher.statistics.any"
+        }
+      }
+    }
+
+#TODO: Fix these params
+########################################
+####### THESE PARAMS GIVE ERRORS #######
+########################################
+###ERROR: No correct backend found in farm stickyConnections
+###ERROR: No correct backend found in farm propagateSyndPost
+###ERROR: No correct backend found in farm health_check
+###ERROR: No correct backend found in farm retryDelay
+###ERROR: No correct backend found in farm numberOfRetries
+###ERROR: No correct backend found in farm unavailablePenalty
+###ERROR: No correct backend found in farm failover
+###ERROR: No correct backend found in farm ignoreEINTR
+
+
+    # Dispatcher sends all requests, from a single user, that are in this folder to the same render instance. Sticky connections ensure that session data is present and consistent for all documents. This mechanism uses the renderid cookie.
+#    /stickyConnections {
+#        /paths {
+#            $include "dispatcher.stickyconnections.any"
+#        }
+#    }
+
+    # allow propagation of replication posts (should seldomly be used)
+#    /propagateSyndPost "${DISPATCHER_PROPOGATESYNDPOST:-0}"
+
+    # Page gets contacted when an instance returns a 500
+#    /health_check
+#      {
+#        $include "dispatcher.healthcheck.any"
+#      }
+
+    #For each round, the maximum number of times Dispatcher attempts a connection to a render is the number of renders in the farm.
+#    /retryDelay 1
+
+    # If Dispatcher cannot successfully connect to a render after this number of retries, Dispatcher returns a failed response.
+#    /numberOfRetries 5
+
+    # The /unavailablePenalty property sets the time (in tenths of a second) that is applied to the render statistics when a connection to the render fails. Dispatcher adds the time to the statistics category that matches the requested URI.
+#    /unavailablePenalty 1
+
+    # Enable the failover mechanism on your Dispatcher farm to resend requests to different renders when the original request fails.
+#    /failover 1
+
+    # Ignoring Interruption Errors - Error while reading response: Interrupted system call
+#    /ignoreEINTR 0
+  }

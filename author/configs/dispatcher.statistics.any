@@ -1,0 +1,3 @@
+/search { /glob "*search.html" }
+/html { /glob "*.html" }
+/others  { /glob "*" }

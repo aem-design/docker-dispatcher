@@ -1,0 +1,3 @@
+/0000 { /glob "*" /type "deny" }
+/0001 { /glob "127.0.0.1" /type "allow" }
+/0002 { /glob "${RENDERER_HOST}" /type "allow" }
