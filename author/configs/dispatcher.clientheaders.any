@@ -40,3 +40,4 @@
 "x-expected-entity-length"
 "destination"
 "CSRF-Token"
+"X-Forwarded-Proto"
