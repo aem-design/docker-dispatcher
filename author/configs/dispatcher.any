@@ -38,7 +38,7 @@
       }
 
     # List of vanity URLs
-    /vanity-urls
+    /vanity_urls
       {
         $include "dispatcher.vanityurls.any"
       }
