@@ -16,6 +16,7 @@ variables:
 
 before_script:
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  - apk update && apk add git
 
 build:
   stage: build
@@ -34,7 +35,7 @@ release-image:
     - docker pull "$CONTAINER_TEST_IMAGE"
     - docker tag "$CONTAINER_TEST_IMAGE" "$CONTAINER_RELEASE_IMAGE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE:latest"
-    - docker tag "$CONTAINER_TEST_IMAGE" "$CONTAINER_RELEASE_IMAGE:$CI_COMMIT_TAG"
-    - docker push "$CONTAINER_RELEASE_IMAGE:$CI_COMMIT_TAG"
+    - docker tag "$CONTAINER_TEST_IMAGE" "$CONTAINER_RELEASE_IMAGE:$(git describe --tags --abbrev=0)"
+    - docker push "$CONTAINER_RELEASE_IMAGE:$(git describe --tags --abbrev=0)"
   only:
     - master
