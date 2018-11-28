@@ -1,12 +1,12 @@
 # name of the dispatcher
-/name "aemdesign-publish"
+/name "aemdesign-author"
 
 # Each farm configures a set of load balanced renders (i.e. remote servers)
 /farms
   {
   # First farm entry
-  /publish
-    {  
+  /author
+    {
     # Request headers that should be forwarded to the remote server.
     /clientheaders
       {
@@ -19,11 +19,11 @@
        $include "dispatcher.virtualhosts.any"
       }
 
-    # Settings for user authentification - THIS ENABLED via dispatcher.any-sm
-    #/sessionmanagement
-    # {
-    #    $include "dispatcher.sessionmanagement.any"
-    # }
+    # Settings for user authentification
+    /sessionmanagement
+     {
+        $include "dispatcher.sessionmanagement.any"
+     }
 
     # The load will be balanced among these render instances
     /renders
@@ -66,7 +66,11 @@
 
       # Flag indicating whether to cache responses to requests that contain
       # authorization information.
-      /allowAuthorized "${DISPATCHER_CACHEAUTHORIZED}"
+      #
+      # Enabling Secure Sessions - /sessionmanagement
+      # /allowAuthorized must be set to "0" in the /cache section in order to enable this feature.
+      #
+      /allowAuthorized "0"
 
       # Flag indicating whether the dispatcher should serve stale content if
       # no remote server is available.

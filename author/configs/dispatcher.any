@@ -19,11 +19,11 @@
        $include "dispatcher.virtualhosts.any"
       }
 
-    # Settings for user authentification
-    /sessionmanagement
-     {
-        $include "dispatcher.sessionmanagement.any"
-     }
+    # Settings for user authentification - THIS ENABLED via dispatcher.any-sm
+    #/sessionmanagement
+    # {
+    #    $include "dispatcher.sessionmanagement.any"
+    # }
 
     # The load will be balanced among these render instances
     /renders

@@ -1,4 +1,4 @@
-/directory "/usr/local/apache/.sessions"
+/directory "/data/httpd/sessions/.sessions"
 # /encode "md5"
 # /header "HTTP:authorization"
 # /timeout "800"
