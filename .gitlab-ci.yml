@@ -34,7 +34,7 @@ release-image:
     - docker pull "$CONTAINER_TEST_IMAGE"
     - docker tag "$CONTAINER_TEST_IMAGE" "$CONTAINER_RELEASE_IMAGE:latest"
     - docker push "$CONTAINER_RELEASE_IMAGE:latest"
-    - docker tag "$CONTAINER_TEST_IMAGE" "$CONTAINER_RELEASE_IMAGE:$(git describe --tags --abbrev=0)"
-    - docker push "$CONTAINER_RELEASE_IMAGE:$(git describe --tags --abbrev=0)"
+    - docker tag "$CONTAINER_TEST_IMAGE" "$CONTAINER_RELEASE_IMAGE:$CI_COMMIT_TAG"
+    - docker push "$CONTAINER_RELEASE_IMAGE:$CI_COMMIT_TAG"
   only:
     - master
