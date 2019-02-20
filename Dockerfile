@@ -59,8 +59,8 @@ COPY start.sh ./start.sh
 COPY httpd ./httpd/
 COPY author ./author/
 COPY publish ./publish/
-COPY http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz ./httpd/modules/src
-COPY http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz ./httpd/modules/src
+ADD http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz ./httpd/modules/src
+ADD http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz ./httpd/modules/src
 
 RUN \
     groupadd -g $APACHE_RUN_GROUPID $APACHE_RUN_GROUP && \
