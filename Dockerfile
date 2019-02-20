@@ -23,6 +23,8 @@ ARG RENDERER_HOST="0.0.0.0"
 ARG RENDERER_PORT=4502
 ARG RENDERER_TIMEOUT=10000
 ARG RENDERER_RESOLVE=1
+ARG DISPATCHER_DOWNLOAD_URL_SSL="http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz"
+ARG DISPATCHER_DOWNLOAD_URL="http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz"
 
 LABEL   container.version="1.0" \
         os.version="centos 7" \
@@ -59,8 +61,7 @@ COPY start.sh ./start.sh
 COPY httpd ./httpd/
 COPY author ./author/
 COPY publish ./publish/
-ADD http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz ./httpd/modules/src
-ADD http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz ./httpd/modules/src
+ADD ${DISPATCHER_DOWNLOAD_URL_SSL} ${DISPATCHER_DOWNLOAD_URL} ./httpd/modules/src/
 
 RUN \
     groupadd -g $APACHE_RUN_GROUPID $APACHE_RUN_GROUP && \
