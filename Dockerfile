@@ -10,7 +10,7 @@ ARG APACHE_RUN_USERID=1100
 ARG APACHE_RUN_GROUPID=1100
 ARG APACHE_LOGLEVEL="debug"
 ARG APACHE_VERSION="2.4"
-ARG DISPATCHER_VERSION="4.2.3"
+ARG DISPATCHER_VERSION="4.3.2"
 ARG DISPATCHER_LOGLEVEL=1
 ARG DISPATCHER_CONFIG="author"
 ARG DISPATCHER_NAME="dispatcher"
@@ -59,6 +59,8 @@ COPY start.sh ./start.sh
 COPY httpd ./httpd/
 COPY author ./author/
 COPY publish ./publish/
+COPY http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz ./httpd/modules/src
+COPY http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz ./httpd/modules/src
 
 RUN \
     groupadd -g $APACHE_RUN_GROUPID $APACHE_RUN_GROUP && \
