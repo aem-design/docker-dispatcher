@@ -19,12 +19,12 @@ ARG DISPATCHER_SERVESTALEONERROR=1
 ARG DISPATCHER_STATLEVEL=3
 ARG DISPATCHER_CACHEAUTHORIZED=0
 ARG DISPATCHER_SESSIONMANAGEMENT=0
+ARG DISPATCHER_DOWNLOAD_URL="http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz"
+ARG DISPATCHER_DOWNLOAD_URL_SSL="http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz"
 ARG RENDERER_HOST="0.0.0.0"
 ARG RENDERER_PORT=4502
 ARG RENDERER_TIMEOUT=10000
 ARG RENDERER_RESOLVE=1
-ARG DISPATCHER_DOWNLOAD_URL_SSL="http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz"
-ARG DISPATCHER_DOWNLOAD_URL="http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz"
 
 LABEL   container.version="1.0" \
         os.version="centos 7" \
@@ -50,6 +50,8 @@ ENV APACHE_MODULES="${APACHE_MODULES}" \
     DISPATCHER_STATLEVEL=${DISPATCHER_STATLEVEL} \
     DISPATCHER_CACHEAUTHORIZED=${DISPATCHER_CACHEAUTHORIZED} \
     DISPATCHER_SESSIONMANAGEMENT=${DISPATCHER_SESSIONMANAGEMENT} \
+    DISPATCHER_DOWNLOAD_URL=${DISPATCHER_DOWNLOAD_URL} \
+    DISPATCHER_DOWNLOAD_URL_SSL=${DISPATCHER_DOWNLOAD_URL_SSL} \
     RENDERER_HOST="${RENDERER_HOST}" \
     RENDERER_PORT="${RENDERER_PORT}" \
     RENDERER_TIMEOUT=${RENDERER_TIMEOUT} \
@@ -61,7 +63,6 @@ COPY start.sh ./start.sh
 COPY httpd ./httpd/
 COPY author ./author/
 COPY publish ./publish/
-ADD ${DISPATCHER_DOWNLOAD_URL_SSL} ${DISPATCHER_DOWNLOAD_URL} ./httpd/modules/src/
 
 RUN \
     groupadd -g $APACHE_RUN_GROUPID $APACHE_RUN_GROUP && \
@@ -72,8 +73,10 @@ RUN \
 # install
     chmod +x /dispatcher/start.sh && mkdir -p /dispatcher /data/httpd /data/httpd/cache /data/httpd/logs /data/httpd/run /data/httpd/cgi-bin $APACHE_MODULES/ssl /etc/httpd/ssl && \
     mkdir -p /data/httpd/redirectmap && touch /data/httpd/redirectmap/redirectmap.map && \
-    tar --directory $APACHE_MODULES --extract --overwrite --overwrite -f $APACHE_MODULES/src/dispatcher-apache$APACHE_VERSION-linux-x86-64-$DISPATCHER_VERSION.tar.gz dispatcher-apache$APACHE_VERSION-$DISPATCHER_VERSION.so && \
-    tar --directory $APACHE_MODULES/ssl --extract --overwrite --overwrite -f $APACHE_MODULES/src/dispatcher-apache$APACHE_VERSION-linux-x86-64-ssl-$DISPATCHER_VERSION.tar.gz dispatcher-apache$APACHE_VERSION-$DISPATCHER_VERSION.so && \
+    curl -SL -o $APACHE_MODULES/src/dispatcher-apache$APACHE_VERSION-linux-x86-64-$DISPATCHER_VERSION.tar.gz ${DISPATCHER_DOWNLOAD_URL} && \
+    curl -SL -o $APACHE_MODULES/src/dispatcher-apache$APACHE_VERSION-linux-x86-64-ssl-$DISPATCHER_VERSION.tar.gz ${DISPATCHER_DOWNLOAD_URL_SSL} && \
+    tar --directory $APACHE_MODULES --extract --overwrite -f $APACHE_MODULES/src/dispatcher-apache$APACHE_VERSION-linux-x86-64-$DISPATCHER_VERSION.tar.gz dispatcher-apache$APACHE_VERSION-$DISPATCHER_VERSION.so && \
+    tar --directory $APACHE_MODULES/ssl --extract --overwrite -f $APACHE_MODULES/src/dispatcher-apache$APACHE_VERSION-linux-x86-64-ssl-$DISPATCHER_VERSION.tar.gz dispatcher-apache$APACHE_VERSION-$DISPATCHER_VERSION.so && \
     chown -R $APACHE_RUN_USER:$APACHE_RUN_GROUP /dispatcher /data/httpd && \
     openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/httpd/ssl/apache.key -out /etc/httpd/ssl/apache.crt -subj "$APACHE_SSL_SUBJ"
 USER ${APACHE_RUN_USER}
