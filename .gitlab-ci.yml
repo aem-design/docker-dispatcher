@@ -1,18 +1,18 @@
 image: docker:stable
 services:
-- docker:dind
+  - docker:dind
 
 stages:
-- build
-- test
-- release
+  - build
+  - test
+  - release
 
 variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE/dispatcher:$CI_COMMIT_REF_NAME
   CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE/dispatcher
-  CONTAINER_RELEASE_IMAGE_TAG: "4.2.3"
+  CONTAINER_RELEASE_IMAGE_TAG: $CI_COMMIT_REF_NAME
 
 before_script:
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
@@ -20,17 +20,23 @@ before_script:
 
 build:
   stage: build
+  except:
+    - tags
   script:
     - docker build --pull -t "$CONTAINER_TEST_IMAGE" .
     - docker push "$CONTAINER_TEST_IMAGE"
 
 test:
   stage: test
+  except:
+    - tags
   script:
     - docker run $CONTAINER_TEST_IMAGE ls -l
 
 release-image:
   stage: release
+  except:
+    - tags
   script:
     - docker pull "$CONTAINER_TEST_IMAGE"
     - docker tag "$CONTAINER_TEST_IMAGE" "$CONTAINER_RELEASE_IMAGE:latest"
