@@ -19,7 +19,7 @@
 
 
 # Deny everything first and then allow specific entries
-/0001 { /type "deny" /glob "*" }
+/0001 { /type "deny" /method "*" /url "*" }
 
 # Open consoles
 # /0011 { /type "allow" /url "/admin/*"  }  # allow servlet engine admin
@@ -69,7 +69,7 @@
 # allow POSTs to form selectors under content
 /0061 { /type "allow" /method "POST" /url "/content/[.]*.form.html" }
 # enable personalization
-/0062 { /type "allow" /url "* /libs/cq/personalization/*" }
+/0062 { /type "allow" /method "*" /url "/libs/cq/personalization/*" }
 # allow POSTs to update the shopping cart
 /0063 { /type "allow" /method "POST /url /content/[.]*.commerce.cart.json" }
 
@@ -121,7 +121,7 @@
 # Allow access to search
 /0150 { /type "allow"  /url "* /content/*/*/search*"      }
 /0151 { /type "allow"  /url "* /content/*/*/search/*"      }
-/0152 { /type "allow" /method "POST" /url "* /content/*/*/search*" /query "search=*" }
+/0152 { /type "allow" /method "POST" /url "/content/*/*/search*" /query "search=*" }
 
 # Allow sitemap
 /0188 { /type "allow"  /method "GET" /url "*/sitemap.xml"      }
@@ -132,7 +132,7 @@
 /0203 { /type "allow" /method "GET" /url "/content/cq:tags/*.5.json*"   }
 
 # allow granite csrf
-/0300 { /type "allow" /glob "GET /libs/granite/csrf/token.json" }
+/0300 { /type "allow" /method "GET" /url "/libs/granite/csrf/token.json" }
 
 #deny libs and etc
 /0511 { /type "deny" /url "/libs/opensocial/proxy*"   }
@@ -150,45 +150,45 @@
 /0538 { /type "allow" /method "GET" /url "/libs/cq/security/userinfo.json" } #CQ user information
 /0539 { /type "allow" /method "GET" /url "/libs/granite/security/currentuser.json" } #data must not be cached
 /0540 { /type "allow" /method "GET" /url "/libs/cq/i18n/*" } #Internalization
-/0676 { /type "allow" /url "GET /libs/granite/security/userinfo.json"} # Allow SCF User Model to bootstrap as it depends on the granite user
-/0677 { /type "allow" /url "GET /libs/granite/security/currentuser.json" } # Allow SCF User Model to bootstrap as it depends on the granite user
+/0676 { /type "allow" /method "GET" /url "/libs/granite/security/userinfo.json"} # Allow SCF User Model to bootstrap as it depends on the granite user
+/0677 { /type "allow" /method "GET" /url "/libs/granite/security/currentuser.json" } # Allow SCF User Model to bootstrap as it depends on the granite user
 
 # Allow Logout
-/0800 { /type "allow" /glob "* /system/sling/logout*" }
+/0800 { /type "allow" /method "*" /url "/system/sling/logout*" }
 
 # Allow i18n to load correctly
-/0810 { /type "allow" /glob "GET /libs/cq/i18n/dict.en.json *" }
+/0810 { /type "allow" /method "GET" /url "/libs/cq/i18n/dict.en.json *" }
 
 # Allow loading of templates
-/0820 { /type "allow" /glob "GET /services/social/templates*" }
+/0820 { /type "allow" /method "GET" /url "/services/social/templates*" }
 
 # vanity url
 /0830 { /type "allow" /url "/libs/granite/dispatcher/content/vanityUrls.html" }
 
 # begin social communities package additions:
-#/1650 { /type "allow" /glob "GET /apps/settings/wcm/design/*" } # the design and template assets
-/1651 { /type "allow" /glob "GET /etc/clientlibs/*" } # collected JS/CSS from the components and design
-/1652 { /type "allow" /glob "GET /bin/statistics/tracker/*" } # foundation search component - write stats
-#/1653 { /type "allow" /glob "GET /libs/cq/i18n/*" }
-/1654 { /type "allow" /glob "* /home/users/*/*/profile.form.html*" } # allow users to edit profile page
-#/1655 { /type "allow" /glob "GET /etc/segmentation.segment.js *" } # teaser component
-/1656 { /type "allow" /glob "GET /system/sling.js *" } # foundation slide show component
+#/1650 { /type "allow" /method "GET" /url "/apps/settings/wcm/design/*" } # the design and template assets
+/1651 { /type "allow" /method "GET" /url "/etc/clientlibs/*" } # collected JS/CSS from the components and design
+/1652 { /type "allow" /method "GET" /url "/bin/statistics/tracker/*" } # foundation search component - write stats
+#/1653 { /type "allow" /method "GET" /url "/libs/cq/i18n/*" }
+/1654 { /type "allow" /method "*" /url "/home/users/*/*/profile.form.html*" } # allow users to edit profile page
+#/1655 { /type "allow" /method "GET" /url "/etc/segmentation.segment.js *" } # teaser component
+/1656 { /type "allow" /method "GET" /url "/system/sling.js *" } # foundation slide show component
 # this works for communities profile data: CQ, Facebook, Twitter
-/1657 { /type "allow" /glob "GET /home/users/*/profile/*" } # communities: all profile data
-/1659 { /type "allow" /glob "GET /etc/clientcontext/*" } # communities: required for social "Sign In" link.
-/1664 { /type "allow" /glob "GET /etc/cloudservices/*" } # communities: to enable Facebook and twitter connections
-/1671 { /type "allow" /glob "POST /content/sites/*/resources/en/*" }
-/1672 { /type "allow" /glob "GET /content/communities/enablement/reports/*" }
-/1673 { /type "allow" /glob "GET /content/sites/*" }
-/1674 { /type "allow" /glob "GET /content/communities/scorm/*" }
-/1682 { /type "allow" /glob "GET *.social.*.json*" } # Allow social json get pattern.
-/1685 { /type "allow" /glob "GET /services/social/getLoggedInUser?moderatorCheck=*" } # Allow SCF User model to check moderator rules
-/1686 { /type "allow" /glob "GET /etc/clientlibs/social/thirdparty/ckeditor/*.js?t=*" } # Allow CKEditor to load which uses a query pattern not sufficed by regular glob above.
-/1687 { /type "allow" /glob "GET /etc/clientlibs/social/thirdparty/ckeditor/*.css?t=*" } # Allow CKEditor to load which uses a query pattern not sufficed by regular glob above.
+/1657 { /type "allow" /method "GET" /url "/home/users/*/profile/*" } # communities: all profile data
+/1659 { /type "allow" /method "GET" /url "/etc/clientcontext/*" } # communities: required for social "Sign In" link.
+/1664 { /type "allow" /method "GET" /url "/etc/cloudservices/*" } # communities: to enable Facebook and twitter connections
+/1671 { /type "allow" /method "POST /content/sites/*/resources/en/*" }
+/1672 { /type "allow" /method "GET" /url "/content/communities/enablement/reports/*" }
+/1673 { /type "allow" /method "GET" /url "/content/sites/*" }
+/1674 { /type "allow" /method "GET" /url "/content/communities/scorm/*" }
+/1682 { /type "allow" /method "GET" /url "*.social.*.json*" } # Allow social json get pattern.
+/1685 { /type "allow" /method "GET" /url "/services/social/getLoggedInUser?moderatorCheck=*" } # Allow SCF User model to check moderator rules
+/1686 { /type "allow" /method "GET" /url "/etc/clientlibs/social/thirdparty/ckeditor/*.js?t=*" } # Allow CKEditor to load which uses a query pattern not sufficed by regular glob above.
+/1687 { /type "allow" /method "GET" /url "/etc/clientlibs/social/thirdparty/ckeditor/*.css?t=*" } # Allow CKEditor to load which uses a query pattern not sufficed by regular glob above.
 # end communities package additions
 
 # aem forms
-/6025 { /type "allow" /glob "* /bin/xfaforms/submitaction*" } # to enable AEM forms submission
+/6025 { /type "allow" /method "*" /url "/bin/xfaforms/submitaction*" } # to enable AEM forms submission
 
 # workflows
 

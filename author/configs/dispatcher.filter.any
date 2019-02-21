@@ -18,27 +18,27 @@
 # Note: specifying elements of the request line is the preferred method.
 
 # allow everything
-/0001 { /type "allow"  /glob "*" }
+/0001 { /type "allow" /method "*" /url "*" }
 
 # block admin tools
-/0010 { /type "deny" /glob "* /admin/*" }
-/0011 { /type "deny" /glob "* /admin *" }
-/0012 { /type "deny" /glob "* /system/*" }
-/0013 { /type "deny" /glob "* /_jcr_system/*" }
-/0014 { /type "deny" /glob "* /jcr:system/*" }
+/0010 { /type "deny" /method "*" /url "/admin/*" }
+/0011 { /type "deny" /method "*" /url "/admin *" }
+/0012 { /type "deny" /method "*" /url "/system/*" }
+/0013 { /type "deny" /method "*" /url "/_jcr_system/*" }
+/0014 { /type "deny" /method "*" /url "/jcr:system/*" }
 
 # allow  access to logout
 
 # block crx tools
-# /0015 { /type "deny" /glob "* /crx/*" }
-# /0016 { /type "deny" /glob "* /crx *" }
-# /0017 { /type "deny" /glob "* /bin/crxde*" }
+# /0015 { /type "deny" /method "*" /url "/crx/*" }
+# /0016 { /type "deny" /method "*" /url "/crx *" }
+# /0017 { /type "deny" /method "*" /url "/bin/crxde*" }
 
 # allow some requests
-/0052 { /type "allow" /glob "GET /system/sling/logout*" } # allow logout
+/0052 { /type "allow" /method "GET" /url "/system/sling/logout*" } # allow logout
 
 # allow granite csrf
-/0300 { /type "allow" /glob "GET /libs/granite/csrf/token.json" }
+/0300 { /type "allow" /method "GET" /url "/libs/granite/csrf/token.json" }
 
 # aem forms
-/1025 { /type "allow" /glob "* /bin/xfaforms/submitaction*" } # to enable AEM forms submission
+/1025 { /type "allow" /method "*" /url "/bin/xfaforms/submitaction*" } # to enable AEM forms submission
