@@ -199,3 +199,9 @@
 # If you still need to access single pages within the restricted area, you can allow access to them. For example, to allow access to the Archive tab within the Workflow console add the following section:
 # /6202  { /type "allow"  /url "/libs/cq/workflow/content/console/archive*"   }
 
+# Allow clientlibs extension
+/7001
+{
+    /type "allow"
+    /extension '(clientlibs)'
+}
