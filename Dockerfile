@@ -63,6 +63,7 @@ COPY start.sh ./start.sh
 COPY httpd ./httpd/
 COPY author ./author/
 COPY publish ./publish/
+COPY scripts ./scripts/
 
 RUN \
     groupadd -g $APACHE_RUN_GROUPID $APACHE_RUN_GROUP && \
@@ -71,7 +72,7 @@ RUN \
     yum clean all && \
 #RUN \
 # install
-    chmod +x /dispatcher/start.sh && mkdir -p /dispatcher /data/httpd /data/httpd/cache /data/httpd/logs /data/httpd/run /data/httpd/cgi-bin $APACHE_MODULES/ssl /etc/httpd/ssl && \
+    chmod +x /dispatcher/start.sh && chmod +x /dispatcher/scripts/*.sh && mkdir -p /dispatcher /data/httpd /data/httpd/cache /data/httpd/logs /data/httpd/run /data/httpd/cgi-bin $APACHE_MODULES/ssl /etc/httpd/ssl && \
     mkdir -p /data/httpd/redirectmap && touch /data/httpd/redirectmap/redirectmap.map && \
     curl -SL -o $APACHE_MODULES/src/dispatcher-apache$APACHE_VERSION-linux-x86-64-$DISPATCHER_VERSION.tar.gz ${DISPATCHER_DOWNLOAD_URL} && \
     curl -SL -o $APACHE_MODULES/src/dispatcher-apache$APACHE_VERSION-linux-x86-64-ssl-$DISPATCHER_VERSION.tar.gz ${DISPATCHER_DOWNLOAD_URL_SSL} && \
