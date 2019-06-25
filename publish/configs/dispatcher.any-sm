@@ -94,7 +94,7 @@
         }
 
       # The /invalidateHandler property allows you to define a script which is called for each invalidation request received by Dispatcher.
-      # /invalidateHandler "/opt/dispatcher/scripts/invalidate.sh"
+      # /invalidateHandler "/dispatcher/scripts/invalidate.sh"
 
       # The allowedClients section restricts the client IP addresses that are
       # allowed to issue activation requests.
