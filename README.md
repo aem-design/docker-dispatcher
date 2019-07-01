@@ -38,7 +38,58 @@ All apache and dispatcher logs are piped to container stdout, following is an ex
 {"@date":"Tue Jun 25 13:10:43 2019", "level":"I", "type":"dispatcher", "format":"render", "pid":"pid 11", "method":"GET", "path":"/content/dam/aemdesign-showcase/en/components/media/image/city1.jpg", "status":"404", "size":"568", "duration":"11ms", "renderer":"publish/rend01"}
 ```
 
-#### Log Format 
+#### Log Format
+ 
 - All records with ```@timestamp``` are from apache generated using CustomLog and ErrorLog 
 - All records with ```@date``` are from apache Dispatcher module generated using DispatcherLog 
 - Apache can spit out non JSON formatted logs into STDOUT
+
+### Environment Variables
+
+Following environment variables are available
+
+| Name                          | Default Value                 | Notes |
+| ---                           | ---                           | ---   |
+| APACHE_MODULES                | "/dispatcher/httpd/modules"   |  |
+| APACHE_SSL_SUBJ               | "/C=AU/ST=VIC/L=Melbourne/O=AEM.Design/CN=dispatcher" |  |
+| APACHE_RUN_USER               | "apache" | this is the container user |
+| APACHE_RUN_GROUP              | "apache" |  |
+| APACHE_RUN_USERID             | 1100 |  |
+| APACHE_RUN_GROUPID            | 1100 |  |
+| APACHE_LOGLEVEL               | "debug" |  |
+| APACHE_VERSION                | "2.4" |  |
+| DISPATCHER_VERSION            | "4.3.2" |  |
+| DISPATCHER_LOGLEVEL           | 1 |  |
+| DISPATCHER_CONFIG             | "author" |  |
+| DISPATCHER_NAME               | "dispatcher" |  |
+| DISPATCHER_PROPOGATESYNDPOST  | 0 |  |
+| DISPATCHER_SERVESTALEONERROR  | 1 |  |
+| DISPATCHER_STATLEVEL          | 3 |  |
+| DISPATCHER_CACHEAUTHORIZED    | 0 |  |
+| DISPATCHER_SESSIONMANAGEMENT  | 0 |  |
+| DISPATCHER_DOWNLOAD_URL       | "http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz" |  |
+| DISPATCHER_DOWNLOAD_URL_SSL   | "http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz" |  |
+| RENDERER_HOST                 | "0.0.0.0" |  |
+| RENDERER_PORT                 | 4502 |  |
+| RENDERER_TIMEOUT              | 10000 |  |
+| RENDERER_RESOLVE              | 1 |  |
+
+
+### Volumes
+
+Following volumes are exposed
+
+| Path | Notes  |
+| ---  | ---    |
+| "/data/httpd/cache" | |
+| "/data/httpd/logs" | latest updated outputs all logs to container stdout so you will not see any logs generated |
+| "/data/httpd/redirectmap" | |
+
+### Ports
+
+Following Ports are exposed
+
+| Path | Notes  |
+| ---  | ---    |
+| 8080 |        |
+| 8433 |        |
