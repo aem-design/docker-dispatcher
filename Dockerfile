@@ -1,7 +1,6 @@
 FROM        aemdesign/centos-tini:latest
 
-LABEL   container.version="1.0" \
-        os="centos 7" \
+LABEL   os="centos 7" \
         container.description="apached dispatcher image" \
         version="1.0.0" \
         imagename="dispatcher" \
