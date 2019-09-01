@@ -1,5 +1,12 @@
 FROM        aemdesign/centos-tini:latest
 
+LABEL   os="centos" \
+        container.description="aem dispatcher" \
+        version="1.0.0" \
+        imagename="dispatcher" \
+        test.command="  httpd -v | awk 'NR==1 {print $3}'" \
+        test.command.verify="Apache/2.4.6"
+
 MAINTAINER  devops <devops@aem.design>
 
 ARG APACHE_MODULES="/dispatcher/httpd/modules"
