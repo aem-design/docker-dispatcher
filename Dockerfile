@@ -1,10 +1,11 @@
 FROM        aemdesign/centos-tini:latest
 
-LABEL   os="centos" \
-        container.description="aem dispatcher" \
+LABEL   container.version="1.0" \
+        os="centos 7" \
+        container.description="apached dispatcher image" \
         version="1.0.0" \
         imagename="dispatcher" \
-        test.command="  httpd -v | awk 'NR==1 {print $3}'" \
+        test.command=" httpd -v | awk 'NR==1 {print $3}'" \
         test.command.verify="Apache/2.4.6"
 
 MAINTAINER  devops <devops@aem.design>
@@ -32,13 +33,6 @@ ARG RENDERER_HOST="0.0.0.0"
 ARG RENDERER_PORT=4502
 ARG RENDERER_TIMEOUT=10000
 ARG RENDERER_RESOLVE=1
-
-LABEL   container.version="1.0" \
-        os.version="centos 7" \
-        httpd.version="${APACHE_VERSION}" \
-        dispatcher.version="${DISPATCHER_VERSION}" \
-        container.description="apached dispatcher image"
-
 
 ENV APACHE_MODULES="${APACHE_MODULES}" \
     APACHE_SSL_SUBJ="${APACHE_SSL_SUBJ}" \
