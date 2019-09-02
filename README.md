@@ -1,6 +1,13 @@
 ## CentOS 7 with HTTPD
 
-[![pipeline status](https://gitlab.com/aem.design/dispatcher/badges/master/pipeline.svg)](https://gitlab.com/aem.design/dispatcher/commits/master)
+[![build_status](https://travis-ci.org/aem-design/dispatcher.svg?branch=master)](https://travis-ci.org/aem-design/dispatcher) 
+[![github license](https://img.shields.io/github/license/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
+[![github issues](https://img.shields.io/github/issues/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
+[![github last commit](https://img.shields.io/github/last-commit/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
+[![github repo size](https://img.shields.io/github/repo-size/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
+[![docker stars](https://img.shields.io/docker/stars/aemdesign/dispatcher)](https://hub.docker.com/r/aemdesign/dispatcher) 
+[![docker pulls](https://img.shields.io/docker/pulls/aemdesign/dispatcher)](https://hub.docker.com/r/aemdesign/dispatcher) 
+[![github release](https://img.shields.io/github/release/aem-design/dispatcher)](https://github.com/aem-design/dispatcher)
 
 This is docker image based on CentOS 7 with HTTPD
 
