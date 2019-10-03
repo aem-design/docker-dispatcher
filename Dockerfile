@@ -1,4 +1,4 @@
-FROM        aemdesign/centos-tini:latest
+FROM        aemdesign/centos-tini:centos7
 
 LABEL   os="centos 7" \
         container.description="apached dispatcher image" \
