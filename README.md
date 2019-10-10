@@ -1,6 +1,6 @@
 ## CentOS 7 with HTTPD
 
-[![build_status](https://travis-ci.org/aem-design/dispatcher.svg?branch=master)](https://travis-ci.org/aem-design/dispatcher) 
+[![build_status](https://travis-ci.org/aem-design/docker-dispatcher.svg?branch=master)](https://travis-ci.org/aem-design/docker-dispatcher) 
 [![github license](https://img.shields.io/github/license/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
 [![github issues](https://img.shields.io/github/issues/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
 [![github last commit](https://img.shields.io/github/last-commit/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
