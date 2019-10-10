@@ -67,7 +67,7 @@ Following environment variables are available
 | APACHE_VERSION                | "2.4" |  |
 | DISPATCHER_VERSION            | "4.3.2" |  |
 | DISPATCHER_LOGLEVEL           | 1 |  |
-| DISPATCHER_CONFIG             | "author" |  |
+| DISPATCHER_CONFIG             | "author" | can be author/publish corresponds to config folders in container |
 | DISPATCHER_NAME               | "dispatcher" |  |
 | DISPATCHER_PROPOGATESYNDPOST  | 0 |  |
 | DISPATCHER_SERVESTALEONERROR  | 1 |  |
@@ -100,3 +100,28 @@ Following Ports are exposed
 | ---  | ---    |
 | 8080 |        |
 | 8433 |        |
+
+### Starting
+
+To start local dispatcher on port 9090 using local docker publish instance using poert 4503
+
+```bash
+docker run --name dispatcher-publish \
+-e "RENDERER_HOST=`docker run --rm alpine /sbin/ip route | awk '/default/ { print $3 }'`" \
+-e "RENDERER_PORT=4503" \
+-e "DISPATCHER_CONFIG=publish" \
+-p9090:8080 -d \
+-p9433:8433 -d \
+aemdesign/dispatcher
+``` 
+
+To start local dispatcher on port 9091 using local docker author instance using poert 4502
+
+```bash
+docker run --name dispatcher-author \
+-e "RENDERER_HOST=`docker run --rm alpine /sbin/ip route | awk '/default/ { print $3 }'`" \
+-e "RENDERER_PORT=4502" \
+-p9091:8080 -d \
+-p9434:8433 -d \
+aemdesign/dispatcher
+``` 
