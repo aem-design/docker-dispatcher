@@ -23,7 +23,7 @@
 # This page contains a "Welcome, User XXX" message
 #/0005 { /glob "/libs/cq/core/content/welcome.*" /type "deny" }
 
-/0200 { /glob " /content/cq:tags/*" /type "allow" }
+/0200 { /glob "/content/cq:tags/*" /type "allow" }
 /0536 { /glob "/libs/cq/security/userinfo.json" /type "deny" }
 /0537 { /glob "/libs/granite/security/currentuser.json" /type "deny" }
 # Never cache the user-specific .json requests
