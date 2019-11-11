@@ -71,7 +71,7 @@
 # enable personalization
 /0062 { /type "allow" /method "*" /url "/libs/cq/personalization/*" }
 # allow POSTs to update the shopping cart
-/0063 { /type "allow" /method "POST /url /content/[.]*.commerce.cart.json" }
+/0063 { /type "allow" /method "POST" /url "/content/[.]*.commerce.cart.json" }
 
 # Deny content grabbing
 /0070 { /type "deny"  /url "*.json" }
@@ -177,7 +177,7 @@
 /1657 { /type "allow" /method "GET" /url "/home/users/*/profile/*" } # communities: all profile data
 /1659 { /type "allow" /method "GET" /url "/etc/clientcontext/*" } # communities: required for social "Sign In" link.
 /1664 { /type "allow" /method "GET" /url "/etc/cloudservices/*" } # communities: to enable Facebook and twitter connections
-/1671 { /type "allow" /method "POST /content/sites/*/resources/en/*" }
+/1671 { /type "allow" /method "POST" /url "/content/sites/*/resources/en/*" }
 /1672 { /type "allow" /method "GET" /url "/content/communities/enablement/reports/*" }
 /1673 { /type "allow" /method "GET" /url "/content/sites/*" }
 /1674 { /type "allow" /method "GET" /url "/content/communities/scorm/*" }
