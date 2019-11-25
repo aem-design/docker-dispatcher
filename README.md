@@ -65,6 +65,7 @@ Following environment variables are available
 | APACHE_RUN_GROUPID            | 1100 |  |
 | APACHE_LOGLEVEL               | "debug" |  |
 | APACHE_VERSION                | "2.4" |  |
+| DISPATCHER_SSL_VERSION        | "1.1" | SSL version for dispatcher module  |
 | DISPATCHER_VERSION            | "4.3.2" |  |
 | DISPATCHER_LOGLEVEL           | 1 |  |
 | DISPATCHER_CONFIG             | "author" | can be author/publish corresponds to config folders in container |
@@ -75,7 +76,7 @@ Following environment variables are available
 | DISPATCHER_CACHEAUTHORIZED    | 0 |  |
 | DISPATCHER_SESSIONMANAGEMENT  | 0 |  |
 | DISPATCHER_DOWNLOAD_URL       | "http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-${DISPATCHER_VERSION}.tar.gz" |  |
-| DISPATCHER_DOWNLOAD_URL_SSL   | "http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl-${DISPATCHER_VERSION}.tar.gz" |  |
+| DISPATCHER_DOWNLOAD_URL_SSL   | "http://download.macromedia.com/dispatcher/download/dispatcher-apache${APACHE_VERSION}-linux-x86_64-ssl${SSL_VERSION}-${DISPATCHER_VERSION}.tar.gz" |  |
 | RENDERER_HOST                 | "0.0.0.0" |  |
 | RENDERER_PORT                 | 4502 |  |
 | RENDERER_TIMEOUT              | 10000 |  |
