@@ -2,7 +2,7 @@ FROM        aemdesign/centos-tini:centos7
 
 LABEL   os="centos 7" \
         container.description="apached dispatcher image" \
-        version="1.0.0" \
+        version="4.3.3" \
         imagename="dispatcher" \
         test.command=" httpd -v | awk 'NR==1 {print $3}' | awk -F /  'NR==1 {print $2}'" \
         test.command.verify="2.4.6"
