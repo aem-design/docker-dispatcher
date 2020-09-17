@@ -32,7 +32,7 @@ jobs:
         run: |
           docker build --pull -t $IMAGE:$IMAGE_VERSION .
           source <(curl -sL https://github.com/aem-design/aemdesign-docker/releases/latest/download/github_container_verify.sh)
-          (cd test && ./run_tests.sh "$IMAGE:$IMAGE_VERSION")
+          (bash test/run_tests.sh "$IMAGE:$IMAGE_VERSION")
           docker images
 
 #      - name: login to docker registry
