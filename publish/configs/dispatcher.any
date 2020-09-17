@@ -6,13 +6,13 @@
   {
   # First farm entry
   /publish
-    {  
+    {
     # Request headers that should be forwarded to the remote server.
     /clientheaders
       {
         $include "dispatcher.clientheaders.any"
       }
-      
+
     # Hostname globbing for farm selection (virtual domain addressing)
     /virtualhosts
       {
@@ -122,9 +122,9 @@
       /enableTTL 1
 
       }
-      
+
     # The statistics sections dictates how the load should be balanced among the
-    # renders according to the media-type. 
+    # renders according to the media-type.
     /statistics
       {
       /categories
@@ -133,6 +133,15 @@
         }
       }
     }
+
+    # Permission-sensitive caching enables you to cache secured pages.
+    # Dispatcher checks user's access permissions for a page before delivering the cached page.
+    # Dispatcher includes the AuthChecker module that implements permission-sensitive caching.
+    # When the module is activated, the render calls an AEM servlet to perform user authentication and authorization
+    # for the requested content. The servlet response determines whether the content is delivered to the web browser.
+    # Because the methods of authentication and authorization are specific to the AEM deployment,
+    # you are required to create the servlet.
+    $include "dispatcher.authchecker.any"
 
 #TODO: Fix these params
 ########################################
