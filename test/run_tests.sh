@@ -7,7 +7,8 @@
 # The image has to be available before this script is executed.
 #
 export RENDERER_PORT=8081
-export DISPATCHER_PORT=8082
+export DISPATCHER_PORT_AUTHOR=8082
+export DISPATCHER_PORT_PUBLISH=8083
 export DISPATCHER_LOGLEVEL=1
 IMAGE_NAME=${1:-aemdesign/dispatcher}
 FLAG_DEBUG=${2:-true}
@@ -98,17 +99,38 @@ printDebug() {
     debug "$(printf '*%.0s' {1..100})" "error"
 }
 
+printSection() {
+    debug "$(printf '*%.0s' {1..100})" "info"
+    echo ${1:-Section}
+    debug "$(printf '*%.0s' {1..100})" "info"
+}
+
+setup() {
+	printLine "Starting Container"
+  docker-compose up -d --force-recreate --build
+}
+
+showlog() {
+  printSection "Dispatcher Author Log"
+  docker logs test_dispatcher_author
+  printSection "Dispatcher Publish Log"
+  docker logs test_dispatcher_publish
+}
+
+teardown() {
+	printLine "Remove Test containers"
+	docker-compose down
+}
+
 test_docker_run_usage() {
 	printLine "Testing 'docker run' usage"
 	PATH_TO_CHECK="/content/aemdesign-showcase/au/en/component/details/generic-details.html"
 	CHECK="${PATH_TO_CHECK}"
-
-	printLine "Starting Container"
-  docker-compose up -d --force-recreate
+  TEST_PORT="${1}"
 
   printLine "Requesting page from container"
 
-	OUTPUT=$(sleep 5 && curl -s "http://0.0.0.0:${DISPATCHER_PORT}${PATH_TO_CHECK}")
+	OUTPUT=$(sleep 5 && curl -s "http://0.0.0.0:${TEST_PORT}${PATH_TO_CHECK}")
 
 	if [[ "$OUTPUT" != *"$CHECK"* ]]; then
 	    printResult "error"
@@ -118,11 +140,16 @@ test_docker_run_usage() {
         printResult "success"
 	fi
 
-	printLine "Remove Test containers"
-	docker-compose down
 
 }
 
+setup
+printLine "TEST AUTHOR CONFIGS"
+test_docker_run_usage ${DISPATCHER_PORT_AUTHOR}
+printLine "TEST PUBLISH CONFIGS"
+test_docker_run_usage ${DISPATCHER_PORT_PUBLISH}
 
-test_docker_run_usage
+printLine "SHOW LOGS"
+showlog
 
+teardown
