@@ -23,5 +23,5 @@
 /0112 { /glob "*.otf" /type "allow" }
 /0113 { /glob "*.eot" /type "allow" }
 /0114 { /glob "*.svg" /type "allow" }
-/0115 { /glob "*.ttf" /type "allow" }
-/0116 { /glob "*.woff" /type "allow" }
+/0115 { /glob "*.ttf*" /type "allow" }
+/0116 { /glob "*.woff*" /type "allow" }
