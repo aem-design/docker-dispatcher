@@ -1,0 +1,62 @@
+name: build
+
+on: [push, repository_dispatch]
+
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+      DOCKER_REGISTRY_INDEX: ${{ secrets.DOCKER_REGISTRY_INDEX }}
+      ORGANISATION_NAME: ${{ secrets.ORGANISATION_NAME }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          lfs: true
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: set envirnment variables
+        id: config
+        run: |
+          source <(curl -sL https://github.com/aem-design/aemdesign-docker/releases/latest/download/github_get_config.sh)
+          source <(curl -sL https://github.com/aem-design/aemdesign-docker/releases/latest/download/github_get_version.sh)
+
+      - name: build and test docker image
+        run: |
+          docker build --pull -t $IMAGE:$IMAGE_VERSION .
+          source <(curl -sL https://github.com/aem-design/aemdesign-docker/releases/latest/download/github_container_verify.sh)
+          (bash test/run_tests.sh "$IMAGE:$IMAGE_VERSION")
+          docker images
+
+      - name: login to docker registry
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ${DOCKER_REGISTRY} -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: push image version
+        run: docker push $IMAGE:$IMAGE_VERSION
+
+      - name: push latest image on master
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker tag $IMAGE:$IMAGE_VERSION $IMAGE:latest
+          docker push $IMAGE:latest
+
+      - name: update registry description with readme on master
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker run --rm -v $(pwd):/data/ aemdesign/dockerhub-description "$DOCKER_USERNAME" "$DOCKER_PASSWORD" "$IMAGE"
+
+      - uses: meeDamian/github-release@1.0
+        if: github.ref == 'refs/heads/master'
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.GITHUB_TAG }}
+          name: ${{ env.GITHUB_TAG }}
+          body: ${{ env.GIT_RELEASE_NOTES }}
+          allow_override: true

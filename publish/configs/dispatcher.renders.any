@@ -14,9 +14,9 @@
 
     # specifies the time in milliseconds that a response is allowed to take. The default is "600000", causing Dispatcher to wait for 10 Minutes. A setting of "0" eliminates the timeout completely.
     # If the timeout is reached while parsing response headers, an HTTP Status of 504 (Bad Gateway) is returned. If the timeout is reached while the response body is read, the Dispatcher will return the incomplete response to the client but delete any cache file that might have been written.
-    /receiveTimeout "600000"
+    /receiveTimeout "${RENDERER_RECEIVE_TIMEOUT}"
 
     #Specifies whether Dispatcher uses the getaddrinfo function (for IPv6) or the gethostbyname function (for IPv4) for obtaining the IP address of the render.
-    /ipv4 "0"
+    /ipv4 "${RENDERER_IPV4}"
 
 }

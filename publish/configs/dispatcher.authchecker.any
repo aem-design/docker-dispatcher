@@ -1,0 +1,44 @@
+# Permission-sensitive caching enables you to cache secured pages.
+# Dispatcher checks user's access permissions for a page before delivering the cached page.
+# Dispatcher includes the AuthChecker module that implements permission-sensitive caching.
+# When the module is activated, the render calls an AEM servlet to perform user authentication and authorization
+# for the requested content. The servlet response determines whether the content is delivered to the web browser.
+# Because the methods of authentication and authorization are specific to the AEM deployment,
+# you are required to create the servlet.
+
+#/auth_checker
+#  {
+#  # request is sent to this URL with '?uri=<page>' appended
+#  /url "/bin/permissioncheck"
+#
+#  # only the requested pages matching the filter section below are checked,
+#  # all other pages get delivered unchecked
+#  /filter
+#    {
+#    /0000
+#      {
+#      /glob "*"
+#      /type "deny"
+#      }
+#    /0001
+#      {
+#      /glob "/content/secure/*.html"
+#      /type "allow"
+#      }
+#    }
+#  # any header line returned from the auth_checker's HEAD request matching
+#  # the section below will be returned as well
+#  /headers
+#    {
+#    /0000
+#      {
+#      /glob "*"
+#      /type "deny"
+#      }
+#    /0001
+#      {
+#      /glob "Set-Cookie:*"
+#      /type "allow"
+#      }
+#    }
+#  }
