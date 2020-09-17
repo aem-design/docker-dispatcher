@@ -1,6 +1,6 @@
 ## CentOS 7 with HTTPD
 
-[![build_status](https://travis-ci.org/aem-design/docker-dispatcher.svg?branch=master)](https://travis-ci.org/aem-design/docker-dispatcher) 
+[![build_status](https://github.com/aem-design/docker-dispatcher/workflows/build/badge.svg)](https://github.com/aem-design/docker-dispatcher/actions?query=workflow%3Abuild) 
 [![github license](https://img.shields.io/github/license/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
 [![github issues](https://img.shields.io/github/issues/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
 [![github last commit](https://img.shields.io/github/last-commit/aem-design/dispatcher)](https://github.com/aem-design/dispatcher) 
@@ -81,6 +81,8 @@ Following environment variables are available
 | RENDERER_PORT                 | 4502 |  |
 | RENDERER_TIMEOUT              | 10000 |  |
 | RENDERER_RESOLVE              | 1 |  |
+| RENDERER_RECEIVE_TIMEOUT      | 600000 |  |
+| RENDERER_IPV4                 | 0 |  |
 
 
 ### Volumes
