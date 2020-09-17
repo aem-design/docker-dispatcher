@@ -12,8 +12,6 @@ export DISPATCHER_PORT_PUBLISH=8083
 export DISPATCHER_LOGLEVEL=1
 IMAGE_NAME=${1:-aemdesign/dispatcher}
 FLAG_DEBUG=${2:-true}
-export DISPATCHER_CONFIG=${3:-author}
-IMAGE_NAME_RENDERER=${4:-aemdesign/nginx}
 IP=$(which ip)
 if [[ -z $IP ]]; then
     LOCAL_IP="localhost"
