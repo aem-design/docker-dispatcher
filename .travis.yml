@@ -12,6 +12,7 @@ before_install:
 #build and test
 install:
   - docker build --pull -t $IMAGE:$IMAGE_VERSION .
+  - (cd test && ./run_tests.sh "$IMAGE:$IMAGE_VERSION")
   - export CONTAINER_COMMAND="docker run $IMAGE:$IMAGE_VERSION $TEST_COMMAND"
   - echo CONTAINER_COMMAND=$CONTAINER_COMMAND
   - export CONTAINER_OUTPUT=$(eval $CONTAINER_COMMAND)
