@@ -151,7 +151,7 @@
 /0539 { /type "allow" /method "GET" /url "/libs/granite/security/currentuser.json" } #data must not be cached
 /0540 { /type "allow" /method "GET" /url "/libs/cq/i18n/*" } #Internalization
 /0676 { /type "allow" /method "GET" /url "/libs/granite/security/userinfo.json"} # Allow SCF User Model to bootstrap as it depends on the granite user
-/0677 { /type "allow" /method "GET" /url "/libs/granite/security/currentuser.json" } # Allow SCF User Model to bootstrap as it depends on the granite user
+#/0677 { /type "allow" /method "GET" /url "/libs/granite/security/currentuser.json" } # Allow SCF User Model to bootstrap as it depends on the granite user
 
 # Allow Logout
 /0800 { /type "allow" /method "*" /url "/system/sling/logout*" }
@@ -205,3 +205,18 @@
     /type "allow"
     /extension '(clientlibs)'
 }
+
+# Asset Share
+/8000 { /type "allow" /url "/libs/dam/lightbox.json" }
+/8001 { /type "allow" /url "/libs/dam/lightbox" }
+/8002 { /type "allow" /url "/libs/dam/drm" }
+/8003 { /type "allow" /url "/libs/wcm/core/content/pageinfo.json" }
+/8004 { /type "allow" /url "/home/users/*/profile/querybuilder/savedsearch*" }
+/8005 { /type "allow" /url "/libs/cq/security/userinfo.json" }
+/8006 { /type "allow" /url "/libs/cq/i18n/dict.en.json" }
+/8007 { /type "allow" /url "/home/users/*/lightbox/*.assetdownload.zip" }
+/8008 { /type "allow" /method "GET" /path "/content/dam" /extension "renditions" }
+
+# Asset Share: Tags
+/8009 { /type "allow" /url "/content/dam/*/jcr:content.infinity.json" }
+/8010 { /type "allow" /url "/libs/wcm/core/resources/languages.overlay.infinity.json" }

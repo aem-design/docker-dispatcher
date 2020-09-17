@@ -27,18 +27,21 @@
 /0013 { /type "deny" /method "*" /url "/_jcr_system/*" }
 /0014 { /type "deny" /method "*" /url "/jcr:system/*" }
 
-# allow  access to logout
-
 # block crx tools
 # /0015 { /type "deny" /method "*" /url "/crx/*" }
 # /0016 { /type "deny" /method "*" /url "/crx *" }
 # /0017 { /type "deny" /method "*" /url "/bin/crxde*" }
 
-# allow some requests
-/0052 { /type "allow" /method "GET" /url "/system/sling/logout*" } # allow logout
+# allow  access to logout and login
+/0052 { /type "allow" /method "GET" /url "/system/sling/logout*" }
+/0053 { /type "allow" /method "GET" /url "/system/sling/login*" }
+
+# allow previous version thumbnails
+/0100 { /type "allow" /method "GET" /url "/_jcr_system/_jcr_versionStorage/*/renditions/*" }
+/0101 { /type "allow" /method "GET" /url "/jcr:system/jcr:versionStorage/*/renditions/*" }
 
 # allow granite csrf
-/0300 { /type "allow" /method "GET" /url "/libs/granite/csrf/token.json" }
+#/0300 { /type "allow" /method "GET" /url "/libs/granite/csrf/token.json" }
 
-# aem forms
-/1025 { /type "allow" /method "*" /url "/bin/xfaforms/submitaction*" } # to enable AEM forms submission
+# aem forms to enable AEM forms submission
+#/1025 { /type "allow" /method "*" /url "/bin/xfaforms/submitaction*" }
