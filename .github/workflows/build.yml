@@ -12,13 +12,6 @@ jobs:
       ORGANISATION_NAME: aemdesign
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      GOOGLE_DRIVEID: ${{ secrets.GOOGLE_DRIVEID }}
-      GOOGLE_DRIVEID_AEM63: ${{ secrets.GOOGLE_DRIVEID_AEM63 }}
-      GOOGLE_DRIVEID_AEM64: ${{ secrets.GOOGLE_DRIVEID_AEM64 }}
-      CREDS_ADOBE: ${{ secrets.CREDS_ADOBE }}
-      PACKAGE_PATH: "./packages"
-      JAR_PATH: "./jar"
-      PYTHON_VERSION: 3.6
 
 
     steps:
@@ -28,7 +21,8 @@ jobs:
           lfs: true
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-     - name: set envirnment variables
+
+      - name: set envirnment variables
         id: config
         run: |
           source <(curl -sL https://github.com/aem-design/aemdesign-docker/releases/latest/download/github_get_version.sh)
